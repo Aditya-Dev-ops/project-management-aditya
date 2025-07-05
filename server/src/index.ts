@@ -31,11 +31,11 @@ app.get("/", (req, res) => {
   res.send("This is home route");
 });
 
-// app.use("/",(req ,res , next)=>{
-//   console.log(req , "REQUEST .............")
-//   console.log(res , "RESPONSE .............")
-//   next();
-// })
+app.use("/",(req ,res , next)=>{
+  console.log(req , "REQUEST .............")
+  console.log(res , "RESPONSE .............")
+  next();
+})
 
 app.use('/auth',loginRateLimiter,AuthRoutes);
 app.use('/s3url',router);
