@@ -38,13 +38,17 @@ const formFields = {
 
 const AuthProvider = ({ children }: {children: React.ReactNode}) => {
   const token = useAppSelector((state)=> state.auth.token);
+  console.log(token);
   const router = useRouter();
   useEffect(()=>{
     if(!token){
       router.push("/login");// redirect if no token
     }
   },[token , router]);
+
   if(!token) return null;
+  console.log(token);
+  
   return (
     <>
     {children}

@@ -94,8 +94,9 @@ export const api = createApi({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     prepareHeaders: async (headers , {getState} ) => {
       const accessToken = getState() as {auth:{token:string}};
+      console.log(accessToken);
       if (accessToken) {
-        headers.set("Authorization", `Bearer ${accessToken}`);
+        headers.set("Authorization", `Bearer ${accessToken.auth.token}`);
       }
       return headers;
     },
