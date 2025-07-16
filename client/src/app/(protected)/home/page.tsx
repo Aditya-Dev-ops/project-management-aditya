@@ -85,10 +85,11 @@ const HomePage = () => {
     {} as Record<string, number> // make sure it's a mutable object
   );
 
-  const taskDistribution = Object.keys(priorityCount).map((key) => ({
+  const taskDistribution = Object.keys(priorityCount ?? {}).map((key) => ({
     name: key,
-    count: priorityCount[key],
+    count:(priorityCount  ?? {})[key],
   }));
+
 
   const statusCount = projects?.reduce(
     (acc: Record<string, number>, project: Project) => {
@@ -99,9 +100,9 @@ const HomePage = () => {
     {},
   );
 
-  const projectStatus = Object.keys(statusCount).map((key) => ({
+  const projectStatus = Object.keys(statusCount ?? {}).map((key) => ({
     name: key,
-    count: statusCount[key],
+    count: (statusCount ?? {})[key],
   }));
 
   const chartColors = isDarkMode
