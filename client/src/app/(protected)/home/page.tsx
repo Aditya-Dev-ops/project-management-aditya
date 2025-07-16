@@ -38,7 +38,7 @@ const taskColumns: GridColDef[] = [
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-const HomePage = () => {
+const HomePage = ():React.ReactElement=> {
 
   const router = useRouter();
   const dispatch = useDispatch();
@@ -73,7 +73,8 @@ const HomePage = () => {
 
      dispatch(setError(true))
      dispatch(setMessage({error:message}));
-     return router.push('/login');
+     router.push('/login');
+     return <h1></h1>;
   }
 
   const priorityCount = tasks?.reduce(
