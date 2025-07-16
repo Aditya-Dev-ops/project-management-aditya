@@ -137,13 +137,13 @@ const ReusablePriorityPage = ({ priority }: Props) => {
         <div>Loading tasks...</div>
       ) : view === "list" ? (
         <div className="grid grid-cols-1 gap-4">
-          {filteredTasks.length? (filteredTasks?.map((task: Task) => (
+          {filteredTasks?.length? (filteredTasks?.map((task: Task) => (
             <TaskCard key={task.id} task={task} />
           ))):(<h1>No Projects </h1>)
         }</div>
       ) : (
         view === "table" &&
-        (filteredTasks?.length > 0) ? (
+        filteredTasks?.length ? (
           <div className="z-0 w-full">
             <DataGrid
               rows={filteredTasks}
