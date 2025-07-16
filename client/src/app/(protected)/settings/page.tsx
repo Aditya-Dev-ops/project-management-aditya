@@ -4,7 +4,6 @@ import Header from "@/components/Header";
 import Loader from "@/components/Loader";
 import { setError, setMessage } from "@/state";
 import { useGetAuthUserQuery, useGetTeamsQuery, useGetUsersQuery, User, useUpdateUserMutation } from "@/state/api";
-import e from "express";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, UseDispatch } from "react-redux";
@@ -68,7 +67,7 @@ const Settings = () => {
       username:userSettings.username || "",
       email: userSettings.email || "",
       teamId: userSettings.teamId?.toString() || "Not-Defined",
-      Role: userSettings.Role || "Not-Defined",
+      Role: userSettings.Role?String(userSettings.Role) : "Not-Defined"
     })
    }
   },[userSettings])
@@ -76,7 +75,7 @@ const Settings = () => {
   const labelStyles = "block text-sm font-medium dark:text-white";
   const textStyles = "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:text-white dark:focus:bg-slate-200  dark:focus:text-black";
   
-  const handleInputChange = (e : React.ChangeEvent<HTMLInputElement>) =>{
+  const handleInputChange = (e : React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) =>{
     console.log(e.target.value);
     setUSerData((prev)=> ({
     ...prev,
@@ -90,8 +89,8 @@ const Settings = () => {
       const response = await updateUser( userdata ).unwrap();
       console.log(response.user)
       if(response.user){
-        const {profilePictureUrl , userId ,teamId , ...data} = response.user;
-         setUSerData({...data , teamId:teamId?.toString() || "Not-Defined"})
+        const {profilePictureUrl , userId ,teamId , Role , email , username } = response.user;
+         setUSerData({teamId:teamId?.toString() || "Not-Defined" , Role:Role!.toString() , username ,email });
         }
       }
     catch (error){
@@ -199,11 +198,11 @@ const Settings = () => {
                ))
               }}>
               <option value={"Not-Defined"} key={"nothing"}>{"Not-Defined"}</option>
-              {TeamData?.map((team)=><option value={`${team.id}`} key={`${team.id}${team.teamName}`}>{team.teamName}</option>)}
+              {TeamData?.map((team)=><option value={`${team.teamId}`} key={`${team.teamId}${team.teamName}`}>{team.teamName}</option>)}
             </select>)
           }
         </div>
-{/*Role*/}
+       {/*Role*/}
         <div>
           <label className={labelStyles}>Role</label>
           {
