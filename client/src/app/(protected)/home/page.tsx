@@ -57,10 +57,22 @@ const HomePage = () => {
   if (tasksLoading || isProjectsLoading) return <div>Loading..</div>;
 
   if (tasksError || ProjectError){
+    let message = "Something went wrong";
+
+    if ('data' in (errorprojects ?? {})) {
+      message = (errorprojects as any)?.data?.error || message;
+    } else if ('data' in (errortasks ?? {})) {
+      message = (errortasks as any)?.data?.error || message;
+    }
+    else{
+         message = (errortasks as any)?.error || message;
+    }
+  
+    // const message = errorprojects.data?errorprojects.data.error:errorprojects.error;
      console.log(tasksError || ProjectError , errorprojects , errortasks , "Run");
-     console.log(tasks , projects)
+
      dispatch(setError(true))
-     dispatch(setMessage(errortasks?errortasks.data.error:errorprojects.data.error));
+     dispatch(setMessage({error:message}));
      return router.push('/login');
   }
 
@@ -78,7 +90,7 @@ const HomePage = () => {
     count: priorityCount[key],
   }));
 
-  const statusCount = projects.reduce(
+  const statusCount = projects?.reduce(
     (acc: Record<string, number>, project: Project) => {
       const status = project.endDate ? "Completed" : "Active";
       acc[status] = (acc[status] || 0) + 1;
