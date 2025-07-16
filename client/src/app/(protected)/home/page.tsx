@@ -76,7 +76,7 @@ const HomePage = () => {
      return router.push('/login');
   }
 
-  const priorityCount = tasks.reduce(
+  const priorityCount = tasks?.reduce(
     (acc: Record<string, number>, task: Task) => {
       const { priority } = task;
       acc[priority as Priority] = (acc[priority as Priority] || 0) + 1;
