@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery, RootState } from "@reduxjs/toolkit/query/react";
 import { fetchAuthSession, getCurrentUser, signUp } from "aws-amplify/auth";
+import { url } from "inspector";
+import { method, update } from "lodash";
 import { LogIn } from "lucide-react";
 
 export interface Project {
@@ -30,8 +32,8 @@ export interface User {
   username: string;
   email: string;
   profilePictureUrl?: string;
-  cognitoId?: string;
   teamId?: number;
+  Role?:String;
 }
 
 export interface Attachment {
@@ -94,7 +96,6 @@ export const api = createApi({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     prepareHeaders: async (headers , {getState} ) => {
       const accessToken = getState() as {auth:{token:string}};
-      console.log(accessToken);
       if (accessToken) {
         headers.set("Authorization", `Bearer ${accessToken.auth.token}`);
       }
@@ -158,6 +159,13 @@ export const api = createApi({
       }),
       invalidatesTags: ["Projects"],
     }),
+    getAllTasks :build.query<Task[] , void>({
+      query:()=>({
+      url:"tasks/all",
+      method:"GET",
+      }),
+    }),
+
     getTasks: build.query<Task[], { projectId: number }>({
       query: ({ projectId }) => `tasks?projectId=${projectId}`,
       providesTags: (result) =>
@@ -165,6 +173,7 @@ export const api = createApi({
           ? result.map(({ id }) => ({ type: "Tasks" as const, id }))
           : [{ type: "Tasks" as const }],
     }),
+
     getTasksByUser: build.query<Task[], number>({
       query: (userId) => `tasks/user/${userId}`,
       providesTags: (result, error, userId) =>
@@ -172,6 +181,7 @@ export const api = createApi({
           ? result.map(({ id }) => ({ type: "Tasks", id }))
           : [{ type: "Tasks", id: userId }],
     }),
+
     createTask: build.mutation<Task, Partial<Task>>({
       query: (task) => ({
         url: "tasks",
@@ -180,6 +190,7 @@ export const api = createApi({
       }),
       invalidatesTags: ["Tasks"],
     }),
+
     updateTaskStatus: build.mutation<Task, { taskId: number; status: string }>({
       query: ({ taskId, status }) => ({
         url: `tasks/${taskId}/status`,
@@ -190,14 +201,23 @@ export const api = createApi({
         { type: "Tasks", id: taskId },
       ],
     }),
+    updateUser:build.mutation<{message:string , user:User}, {Role:string , email:string , teamId:string , username:string}>({
+      query:({Role , email , teamId , username})=>({
+        url:"users",
+        body:{Role , email , teamId , username},
+        method:"POST"
+      })
+    }),
     getUsers: build.query<User[], void>({
       query: () => "users",
       providesTags: ["Users"],
     }),
+
     getTeams: build.query<Team[], void>({
       query: () => "teams",
       providesTags: ["Teams"],
     }),
+
     search: build.query<SearchResults, string>({
       query: (query) => `search?query=${query}`,
     }),
@@ -240,5 +260,7 @@ export const {
   useLoginUserMutation,
   useSignUpUserMutation,
   useCheckOtpMutation,
-  useGetOtpMutation
+  useGetOtpMutation,
+  useGetAllTasksQuery,
+  useUpdateUserMutation
 } = api;

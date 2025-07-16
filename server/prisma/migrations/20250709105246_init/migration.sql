@@ -1,0 +1,5 @@
+-- CreateEnum
+CREATE TYPE "TaskStatus" AS ENUM ('TO_DO', 'WORK_IN_PROGRESS', 'UNDER_REVIEW', 'COMPLETED');
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "Role" TEXT;

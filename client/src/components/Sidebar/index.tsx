@@ -39,17 +39,14 @@ const Sidebar = () => {
   const currentUserEmail:string | null = useAppSelector(
     (state)=>state.auth.email,
   )
-  console.log(currentUserEmail)
  
   const { data: currentUser } = useGetAuthUserQuery(currentUserEmail!,{
     skip:!currentUserEmail,
   });
-  console.log(currentUser);
   const handleSignOut = async () => {
     try {
       await signOut();
     } catch (error) {
-      console.error("Error signing out: ", error);
     }
   };
   if (!currentUser) return null;
@@ -99,6 +96,7 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
+        
         {/* NAVBAR LINKS */}
         <nav className="z-10 w-full">
           <SidebarLink icon={Home} label="Home" href="/" />

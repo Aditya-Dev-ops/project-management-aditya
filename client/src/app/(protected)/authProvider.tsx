@@ -47,8 +47,7 @@ const AuthProvider = ({ children }: {children: React.ReactNode}) => {
   },[token , router]);
 
   if(!token) return null;
-  console.log(token);
-  
+
   return (
     <>
     {children}

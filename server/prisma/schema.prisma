@@ -28,6 +28,7 @@ model User {
   username          String           @unique
   passwordHash      String?
   profilePictureUrl String?
+  Role              String?
   teamId            Int?
   attachments       Attachment[]
   comments          Comment[]
@@ -36,6 +37,7 @@ model User {
   taskAssignments   TaskAssignment[]
   team              Team?            @relation(fields: [teamId], references: [id])
 }
+
 
 model OTP{
   id String @id @default(cuid())
@@ -74,11 +76,19 @@ model ProjectTeam {
   team      Team    @relation(fields: [teamId], references: [id])
 }
 
+enum TaskStatus {
+  TO_DO
+  WORK_IN_PROGRESS
+  UNDER_REVIEW
+  COMPLETED
+}
+
+
 model Task {
   id              Int              @id @default(autoincrement())
   title           String
   description     String?
-  status          String?
+  status          String? 
   priority        String?
   tags            String?
   startDate       DateTime?

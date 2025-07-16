@@ -1,11 +1,14 @@
 'use client'
 import StoreProvider from "./redux"
+import GloabalWrapper from "./GloabalWrapper"
 
 const ApplicationWrapper = ({children}:{children : React.ReactNode}) => {
   return (
     <div>
         <StoreProvider>
-            {children}
+            <GloabalWrapper>
+              {children}
+            </GloabalWrapper>
         </StoreProvider>
     </div>
   )

@@ -44,7 +44,6 @@ export const userLogin =async (req:Request , res: Response): Promise<void>=>{
     res.status(200).json({message: "Login successful", token , userId:user.userId , email:user.email});
  }
  catch(error){
-   console.error(error)
    res.status(500).json({error:"Internal server error"});
 
  }
@@ -76,7 +75,7 @@ export const userSignUp =async (req: Request , res: Response): Promise<void>=>{
      res.status(201).json({message:"User created successfully" , userId:newUser.userId});
   } catch (error) {
     console.error(error) 
-     res.status(400).json({error: "Interval Server Error"});
+     res.status(400).json({error: "Internal Server Error"});
   }
 };
  
@@ -159,7 +158,7 @@ export const checkOtp = async (req:Request , res:Response)=>{
    
  } catch (error) {
    res.status(400).json({
-    error:error
+    error:"Something Went Wrong"
    })
  }
 };

@@ -13,12 +13,10 @@ const OtpPage = () => {
       e.preventDefault()
        try {
         const data = await checkOtp({userotp : otp})
-        console.log(data);
         if(!data.error){
          router.push('/login')
         }
        } catch (error) {
-        console.log(error);
         setOtp("")
        }
     };

@@ -55,15 +55,14 @@ export default function ForgotPasswordPage() {
       }
     //  call backend api
     try {
-    const serverres =  await getOtp({email:forgotPasswordForm.email , password: forgotPasswordForm.confirmpassword});
-     console.log(serverres , "GET-OTP");  
+    const serverres =  await getOtp({email:forgotPasswordForm.email , password: forgotPasswordForm.confirmpassword}); 
     if(serverres.error){
         return ;
       }
 
       router.push("otp")
     } catch (error) {
-      console.error(error);
+    
     }
   };  
   return (

@@ -24,6 +24,25 @@ export const getTasks = async (req: Request, res: Response): Promise<void> => {
       .json({ message: `Error retrieving tasks: ${error.message}` });
   }
 };
+export const getAllTasks = async (req: Request, res: Response): Promise<void> => {
+  // const { projectId } = req.query;
+  try {
+    const tasks = await prisma.task.findMany({
+      where:{
+        status:{
+          not:"Completed",
+        }
+      }
+    });
+    res.json(tasks);
+  } catch (error: any) {
+    res
+      .status(500)
+      .json({ message: `Error retrieving tasks: ${error.message}` });
+  }
+};
+
+
 
 export const createTask = async (
   req: Request,
@@ -62,7 +81,7 @@ export const createTask = async (
   } catch (error: any) {
     res
       .status(500)
-      .json({ message: `Error creating a task: ${error.message}` });
+      .json({ error: `Error creating a task: ${error.message}` });
   }
 };
 
@@ -83,9 +102,9 @@ export const updateTaskStatus = async (
     });
     res.json(updatedTask);
   } catch (error: any) {
-    res.status(500).json({ message: `Error updating task: ${error.message}` });
+    res.status(500).json({ error: `Error updating task: ${error.message}` });
   }
-};
+ };
 
 export const getUserTasks = async (
   req: Request,

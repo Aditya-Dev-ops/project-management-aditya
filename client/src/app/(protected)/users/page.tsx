@@ -41,10 +41,22 @@ const columns: GridColDef[] = [
       </div>
     ),
   },
+  {field: "team" , headerName:"Team", width:150,
+    renderCell:(params)=>(
+      <span>{params.value?.teamName || "No Team"}</span>
+    )
+  },
+  {field:"Role" ,headerName:"Role" , width:150 ,
+    renderCell:(params)=>(
+      <span>{params.value || "No Role"}</span>
+    )
+  }
 ];
 
 const Users = () => {
-  const { data: users, isLoading, isError } = useGetUsersQuery();
+  const { data:users  , isLoading, isError } = useGetUsersQuery();
+  console.log(users);
+  
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
   if (isLoading) return <div>Loading...</div>;

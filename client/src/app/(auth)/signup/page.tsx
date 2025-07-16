@@ -48,7 +48,6 @@ const SignUpPage = (props: Props) => {
         })
       })
       setIsError(true);
-      console.log(error);
       setSignUpForm({
         email:"",
         username:"",
@@ -92,7 +91,6 @@ const SignUpPage = (props: Props) => {
         },
         body:file,
       })
-      console.log(upload);
 
       if (!upload.ok) {
         throw new Error("Upload failed");
@@ -107,7 +105,6 @@ const SignUpPage = (props: Props) => {
       }));
 
     } catch (error) {
-      console.error("Image upload error", error);
       setImagePreview(null);
     }
   };

@@ -26,10 +26,8 @@ function deleteAllData(orderedFileNames) {
             const model = prisma[modelName];
             try {
                 yield model.deleteMany({});
-                console.log(`Cleared data from ${modelName}`);
             }
             catch (error) {
-                console.error(`Error clearing data from ${modelName}:`, error);
             }
         }
     });
@@ -57,10 +55,8 @@ function main() {
                 for (const data of jsonData) {
                     yield model.create({ data });
                 }
-                console.log(`Seeded ${modelName} with data from ${fileName}`);
             }
             catch (error) {
-                console.error(`Error seeding data for ${modelName}:`, error);
             }
         }
     });

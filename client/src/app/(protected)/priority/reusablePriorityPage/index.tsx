@@ -87,11 +87,14 @@ const ReusablePriorityPage = ({ priority }: Props) => {
     skip: userId === null,
   });
 
+  console.log(tasks)
+
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
 
   const filteredTasks = tasks?.filter(
     (task: Task) => task.priority === priority,
   );
+  console.log(filteredTasks);
 
   if (isTasksError || !tasks) return <div>Error fetching tasks</div>;
 
@@ -134,13 +137,13 @@ const ReusablePriorityPage = ({ priority }: Props) => {
         <div>Loading tasks...</div>
       ) : view === "list" ? (
         <div className="grid grid-cols-1 gap-4">
-          {filteredTasks?.map((task: Task) => (
+          {filteredTasks.length? (filteredTasks?.map((task: Task) => (
             <TaskCard key={task.id} task={task} />
-          ))}
-        </div>
+          ))):(<h1>No Projects </h1>)
+        }</div>
       ) : (
         view === "table" &&
-        filteredTasks ? (
+        (filteredTasks?.length > 0) ? (
           <div className="z-0 w-full">
             <DataGrid
               rows={filteredTasks}
@@ -151,7 +154,7 @@ const ReusablePriorityPage = ({ priority }: Props) => {
               sx={dataGridSxStyles(isDarkMode)}
             />
           </div>
-        ):(<h1>No Projects </h1>)
+        ):(<h1 className="bg-red-500 w-[40vw] h-10 text-white font-semibold p-3 rounded-lg justify-center items-center flex">No Task</h1>)
       )}
     </div>
   );

@@ -7,7 +7,7 @@ import { User, Lock , Eye , EyeOff } from "lucide-react";
 import Loader from "@/components/Loader";
 import { useDispatch } from "react-redux";
 import { setAuthData } from "@/state/authSlice";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function LoginPage() {
@@ -24,7 +24,6 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const data = await loginUser({ email, password }).unwrap();
-      console.log(data);
       if(data){
         dispatch(setAuthData({token:data.token , userId:data.userId , email:data.email}));
       }

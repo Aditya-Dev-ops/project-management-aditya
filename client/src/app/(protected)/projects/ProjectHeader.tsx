@@ -18,7 +18,7 @@ type Props = {
 
 const ProjectHeader = ({ activeTab, setActiveTab }: Props) => {
   const [isModalNewProjectOpen, setIsModalNewProjectOpen] = useState(false);
-
+  
   return (
     <div className="px-4 xl:px-6">
       <ModalNewProject

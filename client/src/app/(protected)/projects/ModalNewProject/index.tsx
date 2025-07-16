@@ -14,7 +14,7 @@ const ModalNewProject = ({ isOpen, onClose }: Props) => {
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-
+  
   const handleSubmit = async () => {
     if (!projectName || !startDate || !endDate) return;
 

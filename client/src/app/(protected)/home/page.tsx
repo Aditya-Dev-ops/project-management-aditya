@@ -4,8 +4,8 @@ import {
   Priority,
   Project,
   Task,
+  useGetAllTasksQuery,
   useGetProjectsQuery,
-  useGetTasksQuery,
 } from "@/state/api";
 import React from "react";
 import { useAppSelector } from "@/app/redux";
@@ -25,6 +25,9 @@ import {
   YAxis,
 } from "recharts";
 import { dataGridClassNames, dataGridSxStyles } from "@/lib/utils";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { setError, setMessage } from "@/state";
 
 const taskColumns: GridColDef[] = [
   { field: "title", headerName: "Title", width: 200 },
@@ -36,18 +39,30 @@ const taskColumns: GridColDef[] = [
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
 const HomePage = () => {
+
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+
   const {
-    data: tasks,
-    isLoading: tasksLoading,
-    isError: tasksError,
-  } = useGetTasksQuery({ projectId: parseInt("1") });
-  const { data: projects, isLoading: isProjectsLoading } =
-    useGetProjectsQuery();
+    data: tasks, isLoading: tasksLoading, isError: tasksError, error:errortasks 
+    } = useGetAllTasksQuery();
 
+  const {
+     data: projects, isLoading: isProjectsLoading  , isError:ProjectError , error:errorprojects
+    } = useGetProjectsQuery();
+  
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
-
+ 
   if (tasksLoading || isProjectsLoading) return <div>Loading..</div>;
-  if (tasksError || !tasks || !projects) return <div>Error fetching data</div>;
+
+  if (tasksError || ProjectError){
+     console.log(tasksError || ProjectError , errorprojects , errortasks , "Run");
+     console.log(tasks , projects)
+     dispatch(setError(true))
+     dispatch(setMessage(errortasks?errortasks.data.error:errorprojects.data.error));
+     return router.push('/login');
+  }
 
   const priorityCount = tasks.reduce(
     (acc: Record<string, number>, task: Task) => {
@@ -55,7 +70,7 @@ const HomePage = () => {
       acc[priority as Priority] = (acc[priority as Priority] || 0) + 1;
       return acc;
     },
-    {},
+    {} as Record<string, number> // make sure it's a mutable object
   );
 
   const taskDistribution = Object.keys(priorityCount).map((key) => ({

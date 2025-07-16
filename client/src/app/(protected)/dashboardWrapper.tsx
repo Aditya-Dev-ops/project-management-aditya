@@ -5,12 +5,14 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import AuthProvider from "./authProvider";
 import { useAppSelector } from "@/app/redux";
+import { useDispatch, UseDispatch } from "react-redux";
+import { setError } from "@/state";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
-  const isSidebarCollapsed = useAppSelector(
-    (state) => state.global.isSidebarCollapsed,
+  const {isSidebarCollapsed , isDarkMode , isError , Error }= useAppSelector(
+    (state) => state.global
   );
-  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+ const dispatch = useDispatch();
 
   useEffect(() => {
     if (isDarkMode) {
@@ -22,10 +24,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="flex min-h-screen w-full bg-gray-50 text-gray-900">
+        
       <Sidebar />
       <main
         className={`flex w-full flex-col bg-gray-50 dark:bg-dark-bg ${
-          isSidebarCollapsed ? "" : "md:pl-64"
+          isSidebarCollapsed ? "" : "sm:pl-64"
         }`}
       >
         <Navbar />

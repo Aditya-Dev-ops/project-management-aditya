@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsDarkMode, setIsSidebarCollapsed } from "@/state";
 import { useGetAuthUserQuery } from "@/state/api";
-import { signOut } from "aws-amplify/auth";
 import Image from "next/image";
 import { logout } from "@/state/authSlice";
 
@@ -23,7 +22,6 @@ const Navbar = () => {
     try {
       await dispatch(logout());
     } catch (error) {
-      console.error("Error signing out: ", error);
     }
   };
 
