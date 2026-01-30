@@ -30,8 +30,8 @@ export const generateUploadUrl = async (req: Request, res: Response) => {
     });
 
     const url = await getSignedUrl(s3, command, { expiresIn: 180 });
-
     return res.status(200).json({ url });
+    
   } catch (err) {
     console.error("S3 Presign error:", err);
     return res.status(500).json({ error: "Failed to generate upload URL" });

@@ -101,7 +101,7 @@ const SignUpPage = (props: Props) => {
        
        setSignUpForm((prev) => ({
         ...prev,
-        profilePictureUrl: file.name,
+        profilePictureUrl: publicUrl,
       }));
 
     } catch (error) {
