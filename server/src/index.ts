@@ -4,6 +4,9 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+
+dotenv.config({path : "./.env"});
+
 /* ROUTE IMPORTS */
 import projectRoutes from "./routes/projectRoutes";
 import taskRoutes from "./routes/taskRoutes";
@@ -16,7 +19,11 @@ import { loginRateLimiter } from "./middlewares/rateLimiter";
 import { generateUploadUrl } from "./controllers/s3";
 import { router } from "./routes/S3Routes";
 /* CONFIGURATIONS */
-dotenv.config();
+
+console.log("ENV Loaded:", process.env.PORT);
+console.log("Mongo URI Exists:", !!process.env.DATABASE_URI);
+console.log("JWT Secret Exists:", !!process.env.JWT_SECRET);
+
 const app = express();
 app.use(express.json());
 app.use(helmet());
@@ -26,16 +33,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
+console.log(process.env.PORT);
 /* ROUTES */
 app.get("/", (req, res) => {
   res.send("This is home route");
 });
 
-// app.use("/",(req ,res , next)=>{
-//   console.log(req , "REQUEST .............")
-//   console.log(res , "RESPONSE .............")
-//   next();
-// })
+app.use("/",(req ,res , next)=>{
+  console.log(req , "REQUEST .............")
+  console.log(res , "RESPONSE .............")
+  next();
+})
 
 app.use('/auth',loginRateLimiter,AuthRoutes);
 app.use('/s3url',router);

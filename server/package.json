@@ -7,7 +7,7 @@
     "build": "rimraf dist && tsc",
     "start": "npm run build && node dist/index.js",
     "dev": "concurrently \"tsc -w\" \"nodemon --exec ts-node src/index.ts\"",
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/seed.js"
   },
   "keywords": [],
   "author": "",
@@ -31,7 +31,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.837.0",
     "@aws-sdk/s3-request-presigner": "^3.837.0",
-    "@prisma/client": "^5.18.0",
+    "@prisma/client": "^6.19.2",
     "bcrypt": "^6.0.0",
     "body-parser": "^1.20.2",
     "cookie-session": "^2.1.0",
@@ -46,6 +46,6 @@
     "morgan": "^1.10.0",
     "nodemailer": "^7.0.3",
     "openid-client": "^5.7.0",
-    "prisma": "^5.17.0"
+    "prisma": "^6.19.2"
   }
 }

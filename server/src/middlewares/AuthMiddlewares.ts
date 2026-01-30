@@ -4,6 +4,7 @@ import  jwt , { Jwt , JwtPayload } from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+console.log(JWT_SECRET , "Check" , process.env.PORT);
 if(!JWT_SECRET){
     throw new Error("JWT_SECRET is not defined in env");
 }
