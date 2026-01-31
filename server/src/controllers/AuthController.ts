@@ -54,15 +54,15 @@ export const userSignUp =async (req: Request , res: Response): Promise<void>=>{
     const {username , email , password ,profilePictureUrl } = req.body;
     
     console.log(username , email , password , profilePictureUrl);
-    
-    if(!username || !email || !password || !profilePictureUrl){
-         res.status(400).json({error: "Missing required fields"})
+
+    if(!username || !email || !password ){
+         res.status(401).json({error: "Missing required fields"})
          return ;
     };
     // check existing user
     const existingUser = await prisma.user.findUnique({where:{email} });
     if(existingUser){
-       res.status(400).json({ error:"User already exists"})
+       res.status(402).json({ error:"User already exists"})
        return;
     };
 

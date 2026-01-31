@@ -40,8 +40,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/",(req ,res , next)=>{
-  console.log(req , "REQUEST .............")
-  console.log(res , "RESPONSE .............")
   next();
 })
 
