@@ -53,6 +53,8 @@ export const userSignUp =async (req: Request , res: Response): Promise<void>=>{
   try {
     const {username , email , password ,profilePictureUrl } = req.body;
     
+    console.log(username , email , password , profilePictureUrl);
+    
     if(!username || !email || !password || !profilePictureUrl){
          res.status(400).json({error: "Missing required fields"})
          return ;
