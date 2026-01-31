@@ -74,10 +74,11 @@ export const userSignUp =async (req: Request , res: Response): Promise<void>=>{
         username, email, passwordHash:hashedPassword , profilePictureUrl
       }
     })
+    console.log(newUser);
      res.status(201).json({message:"User created successfully" , userId:newUser.userId});
   } catch (error) {
     console.error(error) 
-     res.status(400).json({error: "Internal Server Error"});
+     res.status(400).json({error: "Internal Server Error" , err :error});
   }
 };
  
